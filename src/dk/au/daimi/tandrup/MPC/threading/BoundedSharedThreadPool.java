@@ -61,22 +61,22 @@ public class BoundedSharedThreadPool implements ExecutorService {
 		throw new IllegalStateException("NOT IMPLEMENTED");
 	}
 
-	public <T> List<Future<T>> invokeAll(Collection<Callable<T>> arg0)
+	public <T> List<Future<T>> invokeAll(Collection<? extends Callable<T>> arg0)
 	throws InterruptedException {
 		throw new IllegalStateException("NOT IMPLEMENTED");
 	}
 
-	public <T> List<Future<T>> invokeAll(Collection<Callable<T>> arg0,
+	public <T> List<Future<T>> invokeAll(Collection<? extends Callable<T>> arg0,
 			long arg1, TimeUnit arg2) throws InterruptedException {
 		throw new IllegalStateException("NOT IMPLEMENTED");
 	}
 
-	public <T> T invokeAny(Collection<Callable<T>> arg0)
+	public <T> T invokeAny(Collection<? extends Callable<T>> arg0)
 	throws InterruptedException, ExecutionException {
 		throw new IllegalStateException("NOT IMPLEMENTED");
 	}
 
-	public <T> T invokeAny(Collection<Callable<T>> arg0, long arg1,
+	public <T> T invokeAny(Collection<? extends Callable<T>> arg0, long arg1,
 			TimeUnit arg2) throws InterruptedException, ExecutionException,
 			TimeoutException {
 		throw new IllegalStateException("NOT IMPLEMENTED");
