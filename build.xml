@@ -1,0 +1,102 @@
+<project name="MPCdemo" default="sign" basedir=".">
+  <property name="src" location="src"/>
+  <property name="build" location="build"/>
+  <property name="dist"  location="dist"/>
+  <property name="distjar" location="${dist}/demo.jar"/>
+
+  <property name="depcache"  location="depcache"/>
+
+  <property name="grappalib" location="lib/grappa1_2.jar"/>
+
+  <property name="publish" location="/users/tandrup/public_html/MPC/"/>
+
+  <path id="lib.classpath">
+    <pathelement location="${grappalib}"/>
+  </path>
+
+  <target name="init">
+    <tstamp/>
+    <mkdir dir="${depcache}"/>
+    <mkdir dir="${build}"/>
+  </target>
+
+  <target name="depend" depends="init">
+    <depend srcdir="${src}"
+            destdir="${build}"
+            cache="${depcache}"
+            closure="yes"/>
+  </target>
+ 
+  <target name="compile" 
+	  depends="init,depend" 
+	  description="compile the source" >
+    <javac srcdir="${src}" destdir="${build}" 
+	   debug="off" 
+	   source="1.5" target="1.5"
+	   encoding="UTF-8">
+      <classpath>
+	<pathelement location="${grappalib}"/>
+      </classpath>
+    </javac>
+  </target>
+
+  <target name="dist" 
+	  depends="compile" 
+	  description="generate the distribution" >
+    <mkdir dir="${dist}"/>
+    <jar jarfile="${distjar}" basedir="${build}">
+      <zipfileset src="${grappalib}"/>
+      <fileset dir="testkeystores">
+        <include name="**/*.store"/>
+      </fileset>
+      <manifest>
+	<attribute name="Built-By" value="${user.name}"/>
+	<attribute name="Main-Class" value="dk.au.daimi.tandrup.MPC.demo.gui.DemoClient"/>
+      </manifest>
+    </jar>
+  </target>
+
+  <target name="sign" 
+	  depends="dist" 
+	  description="sign the distribution" >
+    <signjar jar="${distjar}"
+	     storepass="secret"
+	     keystore="demo.store"
+	     alias="tandrup"
+	     keypass="secret"/>
+  </target>
+
+  <target name="publish" 
+	  depends="sign" 
+	  description="Publish the distribution" >
+    <mkdir dir="${publish}"/>
+    <copy todir="${publish}" verbose="false">
+      <fileset file="${distjar}"/>
+      <fileset file="demo.jnlp"/>
+    </copy>
+  </target>
+
+  <target name="clean" depends="" description="clean up" >
+    <delete dir="${depcache}"/>
+    <delete dir="${build}"/>
+  </target>
+
+  <target name="cleanall" depends="clean" description="clean up all files" >
+    <delete dir="${dist}"/>
+    <delete dir="${testreport}"/>
+    <delete dir="${doc}"/>
+  </target>
+
+  <target name="all" depends="init,compile,dist,sign" description="Build all" />
+
+  <target name="doc" depends="init" description="Create javadoc">
+    <javadoc destdir="${doc}" 
+             packagenames="*" 
+	     sourcepath="${src}" 
+	     doctitle="MPC" 
+	     source="1.5"
+	     encoding="UTF-8">
+      <link href="http://java.sun.com/j2se/1.5/docs/api" />
+    </javadoc>
+  </target>
+</project>

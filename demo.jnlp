@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jnlp spec="1.0" codebase="http://www.daimi.au.dk/~tandrup/MPC/" href="demo.jnlp">
+<information>
+<title>MPC demo</title>
+<vendor>Mads B. Tandrup</vendor>
+<offline-allowed/>
+</information>
+<resources>
+  <jar href="demo.jar"/>
+  <j2se version="1.5+" java-vm-args="-Xmx800MB" href="http://java.sun.com/products/autodl/j2se"/>
+</resources>
+<application-desc main-class="dk.au.daimi.tandrup.MPC.demo.gui.DemoClient"/>
+<security>
+<all-permissions/>
+</security>
+</jnlp>
